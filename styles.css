@@ -973,7 +973,7 @@ body {
 
 .success-message i {
     font-size: 4rem;
-    color: #2ecc71;
+    color: #c8c8c8;
     margin-bottom: 20px;
 }
 
@@ -1288,7 +1288,7 @@ body {
 
 .success-message i {
     font-size: 5rem;
-    color: #4caf50;
+    color: #e0e0e0;
     margin-bottom: 25px;
     animation: pulse 2s infinite;
 }
@@ -1300,7 +1300,7 @@ body {
 }
 
 .success-message h3 {
-    color: #1a237e;
+    color: #e0e0e0;
     margin-bottom: 15px;
     font-size: 1.8rem;
 }
