@@ -459,13 +459,13 @@ body {
 }
 
 .document-item {
-    background: white;
+    background: #2d2d2d;
     border-radius: 10px;
     padding: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e9ecef;
+    border: 1px solid #2d2d2d;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -580,7 +580,7 @@ body {
 
 .document-title {
     font-size: 0.8rem;
-    color: #2c3e50;
+    color: #ecf0f1;
     margin-bottom: 8px;
     font-weight: 400;
     line-height: 1.3;
@@ -592,7 +592,7 @@ body {
 
 .document-meta {
     font-size: 0.50rem;
-    color: #7f8c8d;
+    color: #ecf0f1;
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -1049,11 +1049,11 @@ body {
 .popup-container {
     width: 90%;
     max-width: 450px; /* Slightly wider for image logo */
-    background: white;
+    background: #2d2d2d;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    border: 2px solid #1a237e;
+    border: 2px solid #0078d7;
 }
 
 /* Mobile Responsive for Image Logo */
@@ -1194,7 +1194,7 @@ body {
     font-size: 0.8rem;
     text-align: center;
     padding: 10px;
-    background: #f8f9fa;
+    background: #424242;
     border-radius: 8px;
     border-left: 4px solid #546e7a;
 }
@@ -1275,9 +1275,9 @@ body {
     line-height: 1.5;
     text-align: center;
     padding: 15px;
-    background: #f5f7fa;
+    background: #424242;
     border-radius: 6px;
-    border: 1px solid #e3e8f1;
+    border: 1px solid #424242;
 }
 
 /* Success Message */
@@ -1416,11 +1416,11 @@ body {
 
 /* Email Display Styles - Simplified */
 .email-display-container {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #2d2d2d 0%, #2d2d2d 100%);
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 25px;
-    border: 2px solid #dee2e6;
+    border: 2px solid #424242;
     animation: slideDown 0.5s ease;
 }
 
@@ -1458,9 +1458,9 @@ body {
     color: #f8f9fa;
     font-weight: 600;
     padding: 12px 15px;
-    background: white;
+    background: #2d2d2d;
     border-radius: 6px;
-    border: 1px solid #ced4da;
+    border: 1px solid #424242;
     word-break: break-all;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
@@ -1497,7 +1497,7 @@ body {
 .back-btn {
     background: transparent;
     color: #6c757d;
-    border: 1px solid #dee2e6;
+    border: 1px solid #424242;
     padding: 10px 20px;
     border-radius: 6px;
     font-size: 1rem;
@@ -1509,9 +1509,9 @@ body {
 }
 
 .back-btn:hover {
-    background: #f8f9fa;
-    color: #495057;
-    border-color: #adb5bd;
+    background: #2d2d2d;
+    color: #f8f9fa;
+    border-color: #424242;
 }
 
 .back-btn i {
@@ -1960,8 +1960,8 @@ body {
 
 .dropdown-selected {
     padding: 14px 18px;
-    background: #f8f9fa;
-    border: 2px solid #e0e0e0;
+    background: #2d2d2d;
+    border: 2px solid #424242;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
@@ -1973,7 +1973,7 @@ body {
 
 .dropdown-selected:hover {
     border-color: #1976d2;
-    background: white;
+    background: #2d2d2d;
 }
 
 .dropdown-selected i:first-child {
@@ -1984,7 +1984,7 @@ body {
 
 .dropdown-selected span {
     flex: 1;
-    color: #495057;
+    color: #e0e0e0;
     font-weight: 400;
 }
 
@@ -2004,8 +2004,8 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
-    border: 2px solid #e0e0e0;
+    background: #2d2d2d;
+    border: 2px solid #424242;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     z-index: 1000;
@@ -2038,7 +2038,7 @@ body {
     gap: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid #424242;
 }
 
 .dropdown-option:last-child {
@@ -2046,7 +2046,7 @@ body {
 }
 
 .dropdown-option:hover {
-    background: #f8f9fa;
+    background: #2d2d2d;
 }
 
 .dropdown-option i {
@@ -2081,12 +2081,12 @@ body {
 
 .dropdown-option span:first-of-type {
     flex: 1;
-    color: #2c3e50;
+    color: #e0e0e0;
     font-weight: 400;
 }
 
 .option-hint {
-    color: #6c757d;
+    color: #e0e0e0;
     font-size: 0.7rem;
     font-style: italic;
 }
@@ -2094,7 +2094,7 @@ body {
 /* Active state for dropdown */
 .dropdown-selected.active {
     border-color: #1976d2;
-    background: white;
+    background: #424242;
     box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
